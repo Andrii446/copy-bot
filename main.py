@@ -19,7 +19,7 @@ EMOJI_MAP = {
     '🧩': '🥰'
 }
 
-client = TelegramClient('copybot_new', api_id, api_hash)
+client = TelegramClient('copyb', api_id, api_hash)
 
 
 
