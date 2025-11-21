@@ -19,7 +19,7 @@ EMOJI_MAP = {
     '🧩': '🥰'
 }
 
-client = TelegramClient('session', api_id, api_hash)
+client = TelegramClient('new_session', api_id, api_hash)
 
 
 @client.on(events.NewMessage(chats=SOURCE_CHANNEL))
