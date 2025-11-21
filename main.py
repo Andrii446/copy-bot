@@ -1,13 +1,13 @@
 import os
-from telethon import TelegramClient, events
 import re
+from telethon import TelegramClient, events
 
 
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
 
-SOURCE_CHANNEL = 'https://t.me/poludurove'   # канал-источник
-TARGET_CHANNEL = 'https://t.me/crazy_giftss'     # куда репостить
+SOURCE_CHANNEL = 'https://t.me/dfhsoidfhso'   # канал-источник
+TARGET_CHANNEL = 'https://t.me/tetetetetedf'     # куда репостить
 
 STICKER_MAP = {
     # Пример: 123456789012345678 → 'stickers/my_sticker.webp'
@@ -19,56 +19,80 @@ EMOJI_MAP = {
     '🧩': '🥰'
 }
 
-client = TelegramClient('new_session', api_id, api_hash)
+client = TelegramClient('copybot_new', api_id, api_hash)
 
 
+
+def transform_text(text: str) -> str:
+    if not text:
+        return ""
+
+    for old, new in EMOJI_MAP.items():
+        text = text.replace(old, new)
+
+    text = text.replace("@полудуров", "@crazy_giftss")
+    text = text.replace("Купить звезды дешево: @poludurov_stars_bot", "@crazy_giftss")
+    text = text.replace("@poludurov_stars_bot", "@crazy_giftss")
+
+    # На случай разных форматов и текста до/после
+    if "Купить звезды" in text and "stars" in text:
+        text = "@crazy_giftss"
+
+    # Дополнительная подпись
+    text += "\n\n🔥 Подписывайся на наш канал!"
+
+    return text
+
+
+# ---------- АЛЬБОМ ----------
+@client.on(events.Album(chats=SOURCE_CHANNEL))
+async def album_handler(event):
+
+    print(f"📸 Альбом обнаружен: {len(event.messages)} медиа")
+
+    # первый caption
+    caption = transform_text(event.messages[0].message or "")
+
+    # список путей файлов
+    files = []
+
+    for msg in event.messages:
+        f = await msg.download_media()
+        files.append(f)
+
+    # Telethon сам определит медиатипы, mime и атрибуты
+    await client.send_file(
+        TARGET_CHANNEL,
+        files,
+        caption=caption,
+        supports_streaming=True
+    )
+
+    print("✅ Альбом отправлен!")
+
+
+# ---------- ОДИНОЧНЫЕ ПОСТЫ ----------
 @client.on(events.NewMessage(chats=SOURCE_CHANNEL))
-async def handler(event):
-    try:
-        text = event.raw_text or ""
+async def single_handler(event):
 
-        # Убираем ссылки
-        text = re.sub(r'https?://\S+', '', text)
+    if event.grouped_id:
+        return
 
-        # Заменяем @полудуров на @crazy_giftss
-        text = text.replace('@полудуров', '@crazy_giftss')
+    text = transform_text(event.raw_text)
 
-        # Заменяем эмодзи
-        for old_emoji, new_emoji in EMOJI_MAP.items():
-            text = text.replace(old_emoji, new_emoji)
+    if event.media:
+        await client.send_file(
+            TARGET_CHANNEL,
+            event.media,
+            caption=text,
+            supports_streaming=True
+        )
+    else:
+        await client.send_message(TARGET_CHANNEL, text)
 
-        # Добавляем подпись
-        text += "\n\n🔥 Подписывайся на наш канал!"
-
-        # Обработка стикеров
-        if event.message.sticker:
-            sticker_file = STICKER_MAP.get(event.message.sticker.document.id)
-            if sticker_file:
-                await client.send_file(TARGET_CHANNEL, sticker_file)
-                print("Стикер заменен:", event.message.id)
-                return  # если это только стикер, больше ничего не шлем
-
-        # Обработка медиа
-        if event.message.media:
-            if event.message.photo:
-                await client.send_file(TARGET_CHANNEL, event.message.photo, caption=text)
-            elif event.message.video:
-                await client.send_file(TARGET_CHANNEL, event.message.video, caption=text)
-            elif event.message.document:
-                await client.send_file(TARGET_CHANNEL, event.message.document, caption=text)
-            else:
-                # web preview или другое — просто текст
-                await client.send_message(TARGET_CHANNEL, text)
-        else:
-            # только текст
-            await client.send_message(TARGET_CHANNEL, text)
-
-        print("Переслано:", event.id)
-
-    except Exception as e:
-        print("Ошибка:", e)
+    print(f"➡️ Переслан пост {event.id}")
 
 
 client.start()
-print("Userbot запущен. Ждем постов...")
+print("🤖 Бот запущен, отслеживаю канал...")
 client.run_until_disconnected()
