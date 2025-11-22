@@ -6,8 +6,8 @@ from telethon import TelegramClient, events
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
 
-SOURCE_CHANNEL = 'https://t.me/dfhsoidfhso'   # канал-источник
-TARGET_CHANNEL = 'https://t.me/tetetetetedf'     # куда репостить
+SOURCE_CHANNEL = 'https://t.me/poludurove'   # канал-источник
+TARGET_CHANNEL = 'https://t.me/crazy_giftss'     # куда репостить
 
 STICKER_MAP = {
     # Пример: 123456789012345678 → 'stickers/my_sticker.webp'
