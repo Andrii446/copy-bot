@@ -6,7 +6,7 @@ from telethon import TelegramClient, events
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
 
-SOURCE_CHANNEL = 'https://t.me/dfhsoidfhso'   # канал-источник
+SOURCE_CHANNEL = 'https://t.me/brago222'   # канал-источник
 TARGET_CHANNEL = 'https://t.me/tetetetetedf'     # куда репостить
 
 STICKER_MAP = {
@@ -31,7 +31,7 @@ def transform_text(text: str) -> str:
         text = text.replace(old, new)
 
     text = text.replace("@полудуров", "@crazy_giftss")
-    text = text.replace("Купить звезды дешево: @poludurov_stars_bot", "@crazy_giftss")
+    text = text.replace("Купить звезды дешево: @poludurov_stars_bot", "")
     text = text.replace("@poludurov_stars_bot", "@crazy_giftss")
 
     # На случай разных форматов и текста до/после
