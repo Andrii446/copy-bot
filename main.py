@@ -7,8 +7,8 @@ from telethon.errors import FloodWaitError, RPCError  # корректный и�
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
 
-SOURCE_CHANNEL = 'https://t.me/dfhsoidfhso'
-TARGET_CHANNEL = 'https://t.me/tetetetetedf'
+SOURCE_CHANNEL = 'https://t.me/poludurove'
+TARGET_CHANNEL = 'https://t.me/crazy_giftss'
 
 # ------------ EMOJI MAP ------------
 EMOJI_MAP = {
