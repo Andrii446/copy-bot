@@ -19,7 +19,7 @@ EMOJI_MAP = {
     '🧩': ''
 }
 
-client = TelegramClient('copy_boti', api_id, api_hash)
+client = TelegramClient('copy_bo', api_id, api_hash)
 
 # ---------- DETECTOR CONFIG ----------
 WHITELIST = {
