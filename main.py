@@ -1,8 +1,10 @@
 import os
 import asyncio
 import re
+import telethon
 from telethon import TelegramClient, events
 from telethon.errors import FloodWaitError, RPCError
+print("Telethon version:", telethon.__version__)
 
 # ------------ ENVIRONMENT ------------
 api_id = int(os.getenv("API_ID"))
