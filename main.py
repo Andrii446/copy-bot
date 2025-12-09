@@ -94,7 +94,7 @@ def transform_text(text: str) -> str:
     if "Купить звезды" in text and "stars" in text:
         text = "@crazy_giftss"
 
-    return text + "🥰@crazy_giftss \n🔥 Подписывайся на наш канал!"
+    return text + "❤️Самые дешевые звезды тут: @craazy_stars_bot❤️  \n🔥 Подписывайся на наш канал!"
 
 # ---------- ALBUM HANDLER ----------
 @client.on(events.Album(chats=SOURCE_CHANNEL))
