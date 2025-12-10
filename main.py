@@ -96,7 +96,7 @@ def transform_text(text: str) -> str:
     if "Купить звезды" in text and "stars" in text:
         text = "@crazy_giftss"
 
-    return text + "❤️Самые дешевые звезды тут: @craazy_stars_bot❤️  \n🔥Подписывайся на наш канал: @crazy_giftss!🔥"
+    return text
 
 # ---------- ALBUM HANDLER ----------
 @client.on(events.Album(chats=SOURCE_CHANNEL))
@@ -113,10 +113,10 @@ async def album_handler(event):
             temp_files.append(f)
 
         # Проверка на рекламу по трансформированному тексту
-        ad_info = detect_ad_elements(full_text)
+        ad_info = detect_ad_elements(transformed_text)
         if ad_info['is_ad']:
             print("🚫 Альбом содержит рекламу:", ad_info)
-            await client.send_message(LOG_CHANNEL, f"🚫 Альбом содержит рекламу:\n{ad_info}\n\nТекст:\n{full_text}")
+            await client.send_message(LOG_CHANNEL, f"🚫 Альбом содержит рекламу:\n{ad_info}\n\nТекст:\n{transformed_text}")
             return  # не пересылаем в основной канал
 
         await client.send_file(
@@ -140,15 +140,15 @@ async def album_handler(event):
 async def single_handler(event):
     if event.grouped_id:
         return
-
+    transformed_text = transform_text(event.raw_text)
     # Проверка на рекламу по трансформированному тексту
-    ad_info = detect_ad_elements(event.raw_text)
+    ad_info = detect_ad_elements(transformed_text)
     if ad_info['is_ad']:
         print(f"🚫 Пост {event.id} содержит рекламу:", ad_info)
-        await client.send_message(LOG_CHANNEL, f"🚫 Пост {event.id} содержит рекламу:\n{ad_info}\n\nТекст:\n{event.raw_text}")
+        await client.send_message(LOG_CHANNEL, f"🚫 Пост {event.id} содержит рекламу:\n{ad_info}\n\nТекст:\n{transformed_text}")
         return  # не пересылаем пост в основной канал
 
-    transformed_text = transform_text(event.raw_text)
+
 
     if event.media:
         f = await event.download_media()
@@ -165,7 +165,7 @@ async def single_handler(event):
             except:
                 pass
     else:
-        await client.send_message(TARGET_CHANNEL, transformed_text)
+        await client.send_message(TARGET_CHANNEL, transformed_text + "❤️Самые дешевые звезды тут: @craazy_stars_bot❤️  \n🔥Подписывайся на наш канал: @crazy_giftss!🔥")
 
     print(f"➡️ Переслан пост {event.id}")
 
