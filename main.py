@@ -1,16 +1,14 @@
 import os
 import asyncio
 import re
-import telethon
 from telethon import TelegramClient, events
 from telethon.errors import FloodWaitError, RPCError
-print("Telethon version:", telethon.__version__)
 
 # ------------ ENVIRONMENT ------------
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
 
-SOURCE_CHANNEL = 'https://t.me/dfhsoidfhso'
+SOURCE_CHANNEL = 'https://t.me/poludurove'
 TARGET_CHANNEL = 'https://t.me/tetetetetedf'
 LOG_CHANNEL = 'https://t.me/reklama_logg'  # замените на ID или @username для логирования рекламы
 
@@ -27,8 +25,6 @@ client = TelegramClient('copy_bo', api_id, api_hash)
 WHITELIST = {
     "полудуров",
     "crazy_giftss"
-    "craazy_stars_bot"
-    "poludurov_stars_bot"
 }
 
 CTA_KEYWORDS = [
@@ -96,7 +92,7 @@ def transform_text(text: str) -> str:
     if "Купить звезды" in text and "stars" in text:
         text = "@crazy_giftss"
 
-    return text
+    return text + "🥰@crazy_giftss \n🔥 Подписывайся на наш канал!"
 
 # ---------- ALBUM HANDLER ----------
 @client.on(events.Album(chats=SOURCE_CHANNEL))
@@ -140,15 +136,15 @@ async def album_handler(event):
 async def single_handler(event):
     if event.grouped_id:
         return
-    transformed_text = transform_text(event.raw_text)
+
+    transformed_text = transform_text(event.raw_text)  # проверка и трансформация сразу
+
     # Проверка на рекламу по трансформированному тексту
     ad_info = detect_ad_elements(transformed_text)
     if ad_info['is_ad']:
         print(f"🚫 Пост {event.id} содержит рекламу:", ad_info)
         await client.send_message(LOG_CHANNEL, f"🚫 Пост {event.id} содержит рекламу:\n{ad_info}\n\nТекст:\n{transformed_text}")
         return  # не пересылаем пост в основной канал
-
-
 
     if event.media:
         f = await event.download_media()
@@ -165,7 +161,7 @@ async def single_handler(event):
             except:
                 pass
     else:
-        await client.send_message(TARGET_CHANNEL, transformed_text + "❤️Самые дешевые звезды тут: @craazy_stars_bot❤️  \n🔥Подписывайся на наш канал: @crazy_giftss!🔥")
+        await client.send_message(TARGET_CHANNEL, transformed_text)
 
     print(f"➡️ Переслан пост {event.id}")
 
