@@ -95,7 +95,7 @@ def transform_text(text: str) -> str:
     return text
 
 def final_text(text: str) -> str:
-    text += "🥰@crazy_giftss \n🔥 Подписывайся на наш канал!"
+    text += "❤️Самые дешевые звезды тут: @craazy_stars_bot❤️ \n🔥Подписывайся на наш канал: @crazy_giftss!🔥"
     return text
 
 # ---------- ALBUM HANDLER ----------
