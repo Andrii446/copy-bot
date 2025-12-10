@@ -8,8 +8,8 @@ from telethon.errors import FloodWaitError, RPCError
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
 
-SOURCE_CHANNEL = 'https://t.me/poludurove'
-TARGET_CHANNEL = 'https://t.me/crazy_giftss'
+SOURCE_CHANNEL = 'https://t.me/dfhsoidfhso'
+TARGET_CHANNEL = 'https://t.me/tetetetetedf'
 LOG_CHANNEL = 'https://t.me/reklama_logg'  # замените на ID или @username для логирования рекламы
 
 # ------------ EMOJI MAP ------------
