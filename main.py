@@ -28,6 +28,7 @@ WHITELIST = {
     "полудуров",
     "crazy_giftss"
     "craazy_stars_bot"
+    "@poludurov_stars_bot"
 }
 
 CTA_KEYWORDS = [
