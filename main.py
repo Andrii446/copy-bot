@@ -92,7 +92,11 @@ def transform_text(text: str) -> str:
     if "Купить звезды" in text and "stars" in text:
         text = "@crazy_giftss"
 
-    return text + "🥰@crazy_giftss \n🔥 Подписывайся на наш канал!"
+    return text
+
+def final_text(text: str) -> str:
+    text += "🥰@crazy_giftss \n🔥 Подписывайся на наш канал!"
+    return text
 
 # ---------- ALBUM HANDLER ----------
 @client.on(events.Album(chats=SOURCE_CHANNEL))
@@ -138,6 +142,7 @@ async def single_handler(event):
         return
 
     transformed_text = transform_text(event.raw_text)  # проверка и трансформация сразу
+    final= final_text(transformed_text)
 
     # Проверка на рекламу по трансформированному тексту
     ad_info = detect_ad_elements(transformed_text)
@@ -152,7 +157,7 @@ async def single_handler(event):
             await client.send_file(
                 TARGET_CHANNEL,
                 f,
-                caption=transformed_text,
+                caption=final,
                 supports_streaming=True
             )
         finally:
@@ -161,7 +166,7 @@ async def single_handler(event):
             except:
                 pass
     else:
-        await client.send_message(TARGET_CHANNEL, transformed_text)
+        await client.send_message(TARGET_CHANNEL, final)
 
     print(f"➡️ Переслан пост {event.id}")
 
