@@ -10,8 +10,8 @@ print("Telethon version:", telethon.__version__)
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
 
-SOURCE_CHANNEL = 'https://t.me/poludurove'
-TARGET_CHANNEL = 'https://t.me/crazy_giftss'
+SOURCE_CHANNEL = 'https://t.me/dfhsoidfhso'
+TARGET_CHANNEL = 'https://t.me/tetetetetedf'
 LOG_CHANNEL = 'https://t.me/reklama_logg'  # замените на ID или @username для логирования рекламы
 
 # ------------ EMOJI MAP ------------
@@ -27,6 +27,7 @@ client = TelegramClient('copy_bo', api_id, api_hash)
 WHITELIST = {
     "полудуров",
     "crazy_giftss"
+    "craazy_stars_bot"
 }
 
 CTA_KEYWORDS = [
@@ -94,7 +95,7 @@ def transform_text(text: str) -> str:
     if "Купить звезды" in text and "stars" in text:
         text = "@crazy_giftss"
 
-    return text + "❤️Самые дешевые звезды тут: @craazy_stars_bot❤️  \n🔥 Подписывайся на наш канал!"
+    return text + "❤️Самые дешевые звезды тут: @craazy_stars_bot❤️  \n🔥Подписывайся на наш канал: @crazy_giftss!🔥"
 
 # ---------- ALBUM HANDLER ----------
 @client.on(events.Album(chats=SOURCE_CHANNEL))
