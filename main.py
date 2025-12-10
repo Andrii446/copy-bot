@@ -112,10 +112,10 @@ async def album_handler(event):
             temp_files.append(f)
 
         # Проверка на рекламу по трансформированному тексту
-        ad_info = detect_ad_elements(transformed_text)
+        ad_info = detect_ad_elements(full_text)
         if ad_info['is_ad']:
             print("🚫 Альбом содержит рекламу:", ad_info)
-            await client.send_message(LOG_CHANNEL, f"🚫 Альбом содержит рекламу:\n{ad_info}\n\nТекст:\n{transformed_text}")
+            await client.send_message(LOG_CHANNEL, f"🚫 Альбом содержит рекламу:\n{ad_info}\n\nТекст:\n{full_text}")
             return  # не пересылаем в основной канал
 
         await client.send_file(
@@ -140,14 +140,14 @@ async def single_handler(event):
     if event.grouped_id:
         return
 
-    transformed_text = transform_text(event.raw_text)  # проверка и трансформация сразу
-
     # Проверка на рекламу по трансформированному тексту
-    ad_info = detect_ad_elements(transformed_text)
+    ad_info = detect_ad_elements(event.raw_text)
     if ad_info['is_ad']:
         print(f"🚫 Пост {event.id} содержит рекламу:", ad_info)
-        await client.send_message(LOG_CHANNEL, f"🚫 Пост {event.id} содержит рекламу:\n{ad_info}\n\nТекст:\n{transformed_text}")
+        await client.send_message(LOG_CHANNEL, f"🚫 Пост {event.id} содержит рекламу:\n{ad_info}\n\nТекст:\n{event.raw_text}")
         return  # не пересылаем пост в основной канал
+
+    transformed_text = transform_text(event.raw_text)
 
     if event.media:
         f = await event.download_media()
